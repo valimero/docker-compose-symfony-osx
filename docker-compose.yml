@@ -1,0 +1,29 @@
+version: '2'
+
+volumes:
+  appdata: ~
+
+services:
+  php:
+    build: .
+    volumes:
+      # Le code sera surtout modifié en dehors du container, donc la consistence est prioritairement dans ce sens
+      - .:/var/www/html:cached
+      # On s'assure que le cache et les logs ne restent que sur le container
+      # Version Symfony 4
+      - appdata:/var/www/html/var/cache
+      - appdata:/var/www/html/var/log
+      # Version Symfony3 (var/logs au lieu de var/log)
+#      - appdata:/var/www/html/var/cache
+#      - appdata:/var/www/html/var/logs
+      # Version Symfony 2
+      #- appdata:/var/www/html/app/cache
+      #- appdata:/var/www/html/app/logs
+      # A l'inverse, les vendors seront surtout modifiés dans le container
+      - ./vendor:/var/www/html/vendor:delegated
+    working_dir: /var/www/html
+    ports:
+      # On se lit au port 80 local, mais on pourrait aussi en choisir un autre comme par exemple "8080:80"
+      - "80:8000"
+    stdin_open: true
+    tty: true
