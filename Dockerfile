@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install --no-install-recommends -yq ${BUILD_PACKAG
         wget \
         ssh \
         git \
+        zip \
         libmcrypt-dev \
         libicu-dev \
         libzip-dev \
@@ -18,3 +19,7 @@ RUN docker-php-ext-install ${PHP_EXTENSIONS}
 # Installation de composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/local/bin
+
+# Installation de symfony-cli
+RUN wget https://get.symfony.com/cli/installer -O - | bash
+RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
