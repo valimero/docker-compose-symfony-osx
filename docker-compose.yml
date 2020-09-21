@@ -8,7 +8,7 @@ services:
     build: .
     volumes:
       # Le code sera surtout modifié en dehors du container, donc la consistence est prioritairement dans ce sens
-      - .:/var/www/html:cached
+      - .:/var/www/html:delegated
       # On s'assure que le cache et les logs ne restent que sur le container
       # Version Symfony 4
       - appdata:/var/www/html/var/cache
